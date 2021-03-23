@@ -9,9 +9,15 @@
         <p class="card-text">
           {{ note.updatedAt }}
         </p>
-        <button type="button btn-danger" class="close" aria-label="Close">
-          <span @click.prevent="deleteNote()" aria-hidden="true">&times;</span>
-        </button>
+        <p>
+          {{ note.creator.email }}
+        </p>
+        <img class="card-img-top" :src="note.creator.picture" alt="Card image cap">
+        <div class="text-right absolute top right p-2 z-2" v-if="note.creator.email == state.user.email ">
+          <button type="button btn-danger" class="close" aria-label="Close">
+            <span @click.prevent="deleteNote()" aria-hidden="true">&times;</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -30,6 +36,7 @@ export default {
   },
   setup(props) {
     const state = reactive({
+      user: computed(() => AppState.user),
       activeNote: computed(() => AppState.activeNote)
     })
     return {

@@ -15,7 +15,7 @@
                 {{ bug.creator.name }}
               </p>
               <p>
-                {{ bug.updatedAt }}
+                {{ new Date (bug.updatedAt).toDateString() }}
               </p>
               <img class="card-img-top" :src="bug.creator.picture" alt="Card image cap">
               <p>

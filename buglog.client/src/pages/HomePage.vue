@@ -22,6 +22,12 @@
           </button>
         </form>
       </div>
+      <button class="btn btn-secondary" @click="filterBugs()">
+        Show All Open Bugs
+      </button>
+      <button class="btn btn-secondary" @click="filterClosedBugs()">
+        Show All Closed Bugs
+      </button>
       <div class="row">
         <Bug v-for="bug in state.bugs" :key="bug.id" :bug="bug" />
       </div>
@@ -42,7 +48,8 @@ export default {
     const router = useRouter()
     const state = reactive({
       bugs: computed(() => AppState.bugs),
-      // filter closed bugs or v-if filter bugs
+      filterOpen: computed(() => AppState.bugs.filter(b => !b.closed)),
+      filterClosed: computed(() => AppState.bugs.filter(b => b.closed)),
       newBug: {}
     })
     onMounted(() => {
@@ -58,6 +65,12 @@ export default {
         } catch (error) {
           console.error(error)
         }
+      },
+      async filterBugs() {
+        AppState.bugs = state.filterOpen
+      },
+      async filterClosedBugs() {
+        AppState.bugs = state.filterClosed
       }
     }
   },

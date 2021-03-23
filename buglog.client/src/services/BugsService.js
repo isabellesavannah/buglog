@@ -30,12 +30,19 @@ export default class BugsService {
     }
   }
 
-  async closeBug() {
+  async closeBug(id) {
     try {
-      await api.delete('api/')
+      await api.delete('api/bugs/' + id)
     } catch (error) {
-
+      console.error(error)
     }
   } // switch to giant button, take info from end point, id,
+  // async filterBug(){
+  //   try {
+  //     await api.get('api/bugs/' + id)
+  //   } catch (error) {
+  //     console
+  //   }
+  // }
 }
 export const bugsService = new BugsService()

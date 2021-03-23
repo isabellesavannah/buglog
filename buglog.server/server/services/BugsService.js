@@ -6,7 +6,8 @@ class BugsService {
   }
 
   async delete(id) {
-    const closedBug = await dbContext.Bugs.findByIdAndDelete(id)
+    const closedBug = await dbContext.Bugs.findOneAndUpdate({ _id: id }, { closed: true })
+    return closedBug
   }
 
   async findById(id) {
@@ -31,7 +32,8 @@ class BugsService {
     if (!editBug.closed) {
       // const NOTE
     }
-    bug = await dbContext.Bugs.findOneAndUpdate({ _id: id }, update, {
+    delete update.closed
+    bug = await dbContext.Bugs.findOneAndUpdate({ _id: id, closed: false }, update, {
       new: true
     })
     if (!bug) {

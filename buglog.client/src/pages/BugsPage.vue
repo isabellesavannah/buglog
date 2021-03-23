@@ -7,9 +7,9 @@
           <span v-if="!state.activeBug.closed" class="text-success">Open</span>
           <span v-else class="text-danger">Closed</span>
         </p>
-        <select @change="closeBug" id="close" v-model="state.bugStatus">
-          <option>Close</option>
-        </select>
+        <button @click.prevent="closeBug()">
+          Close Bug
+        </button>
       </div>
     </div>
 
@@ -24,20 +24,22 @@
     <div class="row">
       <Note v-for="note in state.note" :key="note.id" :note="note" />
     </div>
-    <form class="form-inline" @submit.prevent="createNote(event)">
-      <input
-        type="text"
-        name="note"
-        id="note"
-        class="form-control"
-        placeholder="Bug Notes"
-        aria-describedby="helpId"
-        v-model="state.newNote.body"
-      />
-      <button class="btn btn-secondary" type="submit">
-        Create Note
-      </button>
-    </form>
+    <div class="text-right absolute top right p-2 z-2" v-if="state.activeBug.closed == false">
+      <form class="form-inline" @submit.prevent="createNote(event)">
+        <input
+          type="text"
+          name="note"
+          id="note"
+          class="form-control"
+          placeholder="Bug Notes"
+          aria-describedby="helpId"
+          v-model="state.newNote.body"
+        />
+        <button class="btn btn-secondary" type="submit">
+          Create Note
+        </button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -66,7 +68,7 @@ export default {
     })
     onMounted(() => {
       notesService.getAllNotesById(route.params.id)
-      // on mounted to render on bug dets page
+      bugsService.getBugById(route.params.id)
     })
     return {
       state,
@@ -77,7 +79,7 @@ export default {
       },
       async closeBug() {
         try {
-          await bugsService.closeBug(props.bug, state.bugStatus)
+          if (confirm('do you want to delete?')) { await bugsService.closeBug(route.params.id, state.bugStatus) }
         } catch (error) {
           logger.error(error)
         }
