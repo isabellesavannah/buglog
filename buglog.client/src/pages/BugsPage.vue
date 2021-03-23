@@ -7,9 +7,11 @@
           <span v-if="!state.activeBug.closed" class="text-success">Open</span>
           <span v-else class="text-danger">Closed</span>
         </p>
-        <button @click.prevent="closeBug()">
-          Close Bug
-        </button>
+        <div v-if="!state.bug.closed">
+          <button @click.prevent="closeBug()">
+            Close Bug
+          </button>
+        </div>
       </div>
     </div>
 

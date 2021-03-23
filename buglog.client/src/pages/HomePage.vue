@@ -59,9 +59,9 @@ export default {
       state,
       async createBug() {
         try {
-          await bugsService.createBug(state.newBug)
+          const bug = await bugsService.createBug(state.newBug)
           // gregslist cars page, missing tiny det
-          router.push({ name: 'BugDetail' })
+          router.push({ name: 'BugDetail', params: { id: bug.id } })
         } catch (error) {
           console.error(error)
         }
