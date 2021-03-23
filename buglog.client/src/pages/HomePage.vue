@@ -42,6 +42,7 @@ export default {
     const router = useRouter()
     const state = reactive({
       bugs: computed(() => AppState.bugs),
+      // filter closed bugs or v-if filter bugs
       newBug: {}
     })
     onMounted(() => {
@@ -52,6 +53,7 @@ export default {
       async createBug() {
         try {
           await bugsService.createBug(state.newBug)
+          // gregslist cars page, missing tiny det
           router.push({ name: 'BugDetail' })
         } catch (error) {
           console.error(error)

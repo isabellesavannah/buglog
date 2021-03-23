@@ -47,6 +47,7 @@ export class BugsController extends BaseController {
       return res.send(data)
     } catch (error) {
       next(error)
+      // delete prop off an object, + hide button req.b.cl = wat we want
     }
   }
 

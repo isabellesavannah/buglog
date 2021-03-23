@@ -49,12 +49,11 @@ import { useRoute } from 'vue-router'
 import { notesService } from '../services/NotesService'
 import Note from '../components/Note'
 import { logger } from '../utils/Logger'
+import { bugsService } from '../services/BugsService'
 export default {
   name: 'BugsDetailPage',
   props: {
-    bug: {
-      type: Object
-    }
+
   },
   setup(props) {
     const route = useRoute()
@@ -67,6 +66,7 @@ export default {
     })
     onMounted(() => {
       notesService.getAllNotesById(route.params.id)
+      // on mounted to render on bug dets page
     })
     return {
       state,
@@ -77,7 +77,7 @@ export default {
       },
       async closeBug() {
         try {
-          await notesService.closeBug(props.bug, state.bugStatus)
+          await bugsService.closeBug(props.bug, state.bugStatus)
         } catch (error) {
           logger.error(error)
         }

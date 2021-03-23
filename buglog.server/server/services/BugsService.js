@@ -6,7 +6,7 @@ class BugsService {
   }
 
   async delete(id) {
-    const closedBug =  await dbContext.Bugs.findByIdAndDelete(id)
+    const closedBug = await dbContext.Bugs.findByIdAndDelete(id)
   }
 
   async findById(id) {
@@ -22,15 +22,16 @@ class BugsService {
   }
 
   async editBug(id, update, userId) {
-    const bug = await this.findById(id)
-    if (bug.creatorId !== userId){
+    let bug = await this.findById(id)
+    if (bug.creatorId !== userId) {
+      // if json throw a bug._doc.watevs
       throw new BadRequest('Unauthorized')
     }
     const editBug = await this.findById(id)
     if (!editBug.closed) {
-      const NOTE
+      // const NOTE
     }
-    const bug = await dbContext.Bugs.findOneAndUpdate({ _id: id }, update, {
+    bug = await dbContext.Bugs.findOneAndUpdate({ _id: id }, update, {
       new: true
     })
     if (!bug) {

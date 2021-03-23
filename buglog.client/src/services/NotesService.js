@@ -26,17 +26,10 @@ export default class NotesService {
   async deleteNote(notes) {
     try {
       await api.delete('api/notes/' + notes._id)
-      // this.getAllNotesById(notes.bugId)
+      this.getAllNotesById(notes.bug)
     } catch (error) {
-
-    }
-  }
-
-  async closeBug() {
-    try {
-      await api.delete('api/')
-    } catch (error) {
-
+      console.error(error)
+      // paddy day also need to find in appstate/ filter
     }
   }
 }

@@ -29,5 +29,13 @@ export default class BugsService {
       console.error(error)
     }
   }
+
+  async closeBug() {
+    try {
+      await api.delete('api/')
+    } catch (error) {
+
+    }
+  } // switch to giant button, take info from end point, id,
 }
 export const bugsService = new BugsService()
