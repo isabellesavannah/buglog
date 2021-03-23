@@ -9,7 +9,9 @@
         <p class="card-text">
           {{ note.updatedAt }}
         </p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <button type="button btn-danger" class="close" aria-label="Close">
+          <span @click.prevent="deleteNote()" aria-hidden="true">&times;</span>
+        </button>
       </div>
     </div>
   </div>
@@ -17,6 +19,10 @@
 
 <script>
 import { reactive } from '@vue/reactivity'
+import { notesService } from '../services/NotesService'
+import { logger } from '../utils/Logger'
+import { computed } from '@vue/runtime-core'
+import { AppState } from '../AppState'
 export default {
   name: 'Note',
   props: {
@@ -24,10 +30,17 @@ export default {
   },
   setup(props) {
     const state = reactive({
-
+      activeNote: computed(() => AppState.activeNote)
     })
     return {
-      state
+      state,
+      async deleteNote() {
+        try {
+          await notesService.deleteNote(props.note)
+        } catch (error) {
+          logger.log(error)
+        }
+      }
 
     }
   },

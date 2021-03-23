@@ -52,7 +52,6 @@ export default {
       async createBug() {
         try {
           await bugsService.createBug(state.newBug)
-          state.newBug = {}
           router.push({ name: 'BugDetail' })
         } catch (error) {
           console.error(error)

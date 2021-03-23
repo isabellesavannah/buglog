@@ -7,35 +7,37 @@
           <span v-if="!state.activeBug.closed" class="text-success">Open</span>
           <span v-else class="text-danger">Closed</span>
         </p>
+        <select @change="closeBug" id="close" v-model="state.bugStatus">
+          <option>Close</option>
+        </select>
       </div>
+    </div>
+
+    <div class="col-12">
+      <p>
+        {{ state.bug.title }}
+      </p>
+      <p>
+        {{ state.activeBug.description }}
+      </p>
     </div>
     <div class="row">
-      <div class="col-12">
-        <p>
-          {{ state.activeBug.title }}
-        </p>
-        <p>
-          {{ state.activeBug.description }}
-        </p>
-      </div>
-      <div class="row">
-        <Note v-for="note in state.note" :key="note.id" :note="note" />
-      </div>
-      <form class="form-inline" @submit.prevent="createNote(event)">
-        <input
-          type="text"
-          name="note"
-          id="note"
-          class="form-control"
-          placeholder="Bug Notes"
-          aria-describedby="helpId"
-          v-model="state.newNote.body"
-        />
-        <button class="btn btn-secondary" type="submit">
-          Create Note
-        </button>
-      </form>
+      <Note v-for="note in state.note" :key="note.id" :note="note" />
     </div>
+    <form class="form-inline" @submit.prevent="createNote(event)">
+      <input
+        type="text"
+        name="note"
+        id="note"
+        class="form-control"
+        placeholder="Bug Notes"
+        aria-describedby="helpId"
+        v-model="state.newNote.body"
+      />
+      <button class="btn btn-secondary" type="submit">
+        Create Note
+      </button>
+    </form>
   </div>
 </template>
 
@@ -46,11 +48,18 @@ import { useRoute } from 'vue-router'
 // import { bugsService } from '../services/BugsService'
 import { notesService } from '../services/NotesService'
 import Note from '../components/Note'
+import { logger } from '../utils/Logger'
 export default {
   name: 'BugsDetailPage',
-  setup() {
+  props: {
+    bug: {
+      type: Object
+    }
+  },
+  setup(props) {
     const route = useRoute()
     const state = reactive({
+      bugStatus: '',
       bug: computed(() => AppState.activeBug),
       note: computed(() => AppState.notes),
       newNote: {},
@@ -65,6 +74,13 @@ export default {
         // state.newNote.title = AppState.activeBug.id
         await notesService.createNote({ bug: route.params.id, body: state.newNote.body })
         state.newNote = {}
+      },
+      async closeBug() {
+        try {
+          await notesService.closeBug(props.bug, state.bugStatus)
+        } catch (error) {
+          logger.error(error)
+        }
       }
     }
   },

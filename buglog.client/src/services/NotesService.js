@@ -22,5 +22,22 @@ export default class NotesService {
       console.error(error)
     }
   }
+
+  async deleteNote(notes) {
+    try {
+      await api.delete('api/notes/' + notes._id)
+      // this.getAllNotesById(notes.bugId)
+    } catch (error) {
+
+    }
+  }
+
+  async closeBug() {
+    try {
+      await api.delete('api/')
+    } catch (error) {
+
+    }
+  }
 }
 export const notesService = new NotesService()
