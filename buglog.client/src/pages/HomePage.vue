@@ -2,32 +2,36 @@
   <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
     <div class="container">
       <div class="row">
-        <form class="form-inline" @submit.prevent="createBug()">
-          <input type="text"
-                 name="title"
-                 id="title"
-                 class="form-control"
-                 placeholder="enter your bug"
-                 v-model="state.newBug.title"
-          />
-          <input type="text"
-                 name="description"
-                 id="description"
-                 class="form-control"
-                 placeholder="enter your description"
-                 v-model="state.newBug.description"
-          />
-          <button class="btn btn-secondary" type="submit">
-            Create Bug
+        <div class="col-6">
+          <button class="btn btn-secondary m-3" @click="filterBugs()">
+            Show All Open Bugs
           </button>
-        </form>
+          <button class="btn btn-secondary m-3" @click="filterClosedBugs()">
+            Show All Closed Bugs
+          </button>
+        </div>
+        <div class="card">
+          <form class="form-inline m-3" @submit.prevent="createBug()">
+            <input type="text"
+                   name="title"
+                   id="title"
+                   class="form-control"
+                   placeholder="enter your bug"
+                   v-model="state.newBug.title"
+            />
+            <input type="text"
+                   name="description"
+                   id="description"
+                   class="form-control"
+                   placeholder="enter your description"
+                   v-model="state.newBug.description"
+            />
+            <button class="btn btn-secondary" type="submit">
+              Create Bug
+            </button>
+          </form>
+        </div>
       </div>
-      <button class="btn btn-secondary" @click="filterBugs()">
-        Show All Open Bugs
-      </button>
-      <button class="btn btn-secondary" @click="filterClosedBugs()">
-        Show All Closed Bugs
-      </button>
       <div class="row">
         <Bug v-for="bug in state.bugs" :key="bug.id" :bug="bug" />
       </div>
@@ -59,9 +63,9 @@ export default {
       state,
       async createBug() {
         try {
-          const bug = await bugsService.createBug(state.newBug)
+          const id = await bugsService.createBug(state.newBug)
           // gregslist cars page, missing tiny det
-          router.push({ name: 'BugDetail', params: { id: bug.id } })
+          router.push({ name: 'BugDetail', params: { id: id } })
         } catch (error) {
           console.error(error)
         }

@@ -1,9 +1,9 @@
 <template>
   <div class="bug">
     <div class="col">
-      <div class="card text-center" style="width: 18rem; height: 25rem;">
+      <div class="card justify-content-center m-3" style="width: 18rem; height: 25rem;">
         <div class="card-body">
-          <div class="row">
+          <div class="row" v-if="bug.creator && bug.creator.name">
             <router-link :to="{name: 'BugDetail', params: {id: bug.id}}">
               <h5 class="card-title bg-secondary">
                 {{ bug.title }}

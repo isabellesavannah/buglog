@@ -1,13 +1,13 @@
 <template>
   <div class="Note">
-    <div class="card" style="width: 18rem;">
+    <div class="card m-3" style="width: 18rem;">
       <!-- <img class="card-img-top" src="bug.creator.picture" alt="Card image cap"> -->
-      <div class="card-body">
+      <div class="card-body" v-if="note.creator.email">
         <h5 class="card-title">
           {{ note.body }}
         </h5>
         <p class="card-text">
-          {{ note.updatedAt }}
+          {{ new Date (note.updatedAt).toDateString() }}
         </p>
         <p>
           {{ note.creator.email }}

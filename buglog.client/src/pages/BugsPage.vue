@@ -1,28 +1,25 @@
 <template>
   <div class="bugsDetailPage">
     <div class="row">
-      <div class="col-12">
+      <div class="col text-center">
         <p>
-          Status:
-          <span v-if="!state.activeBug.closed" class="text-success">Open</span>
-          <span v-else class="text-danger">Closed</span>
+          Bug Title: {{ state.bug.title }} || Bug Description: {{ state.activeBug.description }}
         </p>
-        <div v-if="!state.bug.closed">
-          <button @click.prevent="closeBug()">
+        <p class="m-3">
+          Status:
+          <span v-if="!state.activeBug.closed" class="text-success m-3">Open</span>
+          <span v-else class="text-danger m-3">Closed</span>
+          <span v-if="!state.bug.closed">
+          </span>
+          <button class="btn btn-secondary" @click.prevent="closeBug()">
             Close Bug
           </button>
+        </p>
+        <div>
         </div>
       </div>
     </div>
 
-    <div class="col-12">
-      <p>
-        {{ state.bug.title }}
-      </p>
-      <p>
-        {{ state.activeBug.description }}
-      </p>
-    </div>
     <div class="row">
       <Note v-for="note in state.note" :key="note.id" :note="note" />
     </div>
@@ -68,9 +65,9 @@ export default {
       newNote: {},
       activeBug: computed(() => AppState.activeBug)
     })
-    onMounted(() => {
-      notesService.getAllNotesById(route.params.id)
-      bugsService.getBugById(route.params.id)
+    onMounted(async() => {
+      await notesService.getAllNotesById(route.params.id)
+      await bugsService.getBugById(route.params.id)
     })
     return {
       state,
